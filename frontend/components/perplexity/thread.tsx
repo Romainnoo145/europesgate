@@ -18,9 +18,7 @@ import {
   CopyIcon,
   PaperclipIcon,
   RefreshCwIcon,
-  SparkleIcon,
 } from "lucide-react";
-import { KnowledgeBaseButton } from "../knowledge-base/knowledge-base-button";
 import { cn } from "@/lib/utils";
 
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
@@ -33,21 +31,16 @@ import {
 export const Thread: FC = () => {
   return (
     <ThreadPrimitive.Root
-      className="box-border h-full bg-[#191a1a]"
+      className="box-border h-full bg-gradient-to-b from-white to-gray-50"
       style={{
-        ["--thread-max-width" as string]: "42rem",
+        ["--thread-max-width" as string]: "48rem",
       }}
     >
       <ThreadPrimitive.Empty>
         <ThreadWelcome />
       </ThreadPrimitive.Empty>
       <ThreadPrimitive.If empty={false}>
-        {/* Fixed header */}
-        <div className="flex items-center justify-between px-4 py-3 absolute top-0 left-0 right-0 z-10 bg-[#191a1a]">
-          <h1 className="text-xl font-semibold">Queen-RAG</h1>
-          <KnowledgeBaseButton />
-        </div>
-        <ThreadPrimitive.Viewport className="flex h-full flex-col items-center overflow-y-scroll scroll-smooth bg-inherit px-4 pt-16">
+        <ThreadPrimitive.Viewport className="flex h-full flex-col items-center overflow-y-scroll scroll-smooth bg-inherit px-4 pt-6 pb-4">
           <ThreadPrimitive.Messages
             components={{
               UserMessage: UserMessage,
@@ -57,9 +50,9 @@ export const Thread: FC = () => {
 
           <div className="min-h-8 flex-grow" />
 
-          <div className="sticky bottom-0 mt-3 flex w-full max-w-[var(--thread-max-width)] flex-col items-center justify-end rounded-t-lg bg-[#191a1a] pb-4">
+          <div className="sticky bottom-0 mt-3 flex w-full max-w-[var(--thread-max-width)] flex-col items-center justify-end pb-4">
             <ThreadScrollToBottom />
-            <div className="w-full rounded-full bg-foreground/5 p-2">
+            <div className="w-full rounded-2xl bg-white border border-gray-200 shadow-sm p-3 focus-within:shadow-lg focus-within:border-gray-300 transition-all duration-200">
               <Composer />
             </div>
           </div>
@@ -85,32 +78,67 @@ const ThreadScrollToBottom: FC = () => {
 
 const ThreadWelcome: FC = () => {
   return (
-    <div className="flex h-full w-full flex-col">
-      {/* Fixed header */}
-      <div className="flex items-center justify-between px-4 py-3 absolute top-0 left-0 right-0 z-10 bg-[#191a1a]">
-        <h1 className="text-xl font-semibold">Queen-RAG</h1>
-        <KnowledgeBaseButton />
-      </div>
-      <div className="flex h-full w-full items-center justify-center pt-16">
+    <div className="flex h-full w-full flex-col bg-gradient-to-b from-white to-gray-50">
+      <div className="flex h-full w-full items-center justify-center px-4">
         <div className="flex w-full max-w-[var(--thread-max-width)] flex-grow flex-col gap-12">
-          <div className="flex w-full flex-grow flex-col items-center justify-center">
-            <p className="font-regular font-display text-4xl md:text-5xl">
-              Queen RAG is here.
+          <div className="flex w-full flex-col items-center justify-center space-y-4">
+            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent text-center">
+              Hi Matt,
+            </h1>
+            <p className="text-2xl md:text-3xl text-gray-600 text-center font-light">
+              Let&apos;s iterate some more on Europe&apos;s gate
+            </p>
+            <p className="text-sm text-gray-500 text-center mt-4 max-w-md">
+              Ask questions about the megaproject, explore financials, technical specs, or strategic implications. The AI knows all 11 documents in the knowledge base.
             </p>
           </div>
-          <ComposerPrimitive.Root className="w-full rounded-lg border bg-[#202222] px-2 shadow-sm transition-all duration-200 outline-none focus-within:ring-1 focus-within:ring-border focus:outline-none">
+
+          {/* Quick start prompts */}
+          <div className="flex w-full flex-col gap-3">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Quick start prompts
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[
+                "What's the steel island synergy with hydrogen?",
+                "Tell me about the investment phases",
+                "How does EU funding work for this project?",
+                "What are the main risks and mitigations?",
+              ].map((prompt) => (
+                <button
+                  key={prompt}
+                  onClick={() => {
+                    // This will be handled by the AssistantUI context
+                    const input =
+                      document.querySelector<HTMLTextAreaElement>(
+                        'textarea[placeholder="Ask follow-up"]'
+                      );
+                    if (input) {
+                      input.value = prompt;
+                      input.focus();
+                    }
+                  }}
+                  className="p-3 text-left text-sm rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <ComposerPrimitive.Root className="w-full rounded-2xl border border-gray-200 bg-white px-3 shadow-sm transition-all duration-200 focus-within:shadow-lg focus-within:border-gray-300">
             <ComposerAttachments />
             <ComposerPrimitive.Input
               rows={1}
               autoFocus
-              placeholder="Type your message..."
-              className="max-h-40 w-full flex-grow resize-none border-none bg-transparent px-2 py-4 text-lg outline-none placeholder:text-muted-foreground focus:ring-0 disabled:cursor-not-allowed"
+              placeholder="Ask about Europe's Gate..."
+              className="max-h-40 w-full flex-grow resize-none border-none bg-transparent px-4 py-4 text-base outline-none placeholder:text-gray-400 focus:ring-0 disabled:cursor-not-allowed text-gray-900"
             />
             <div className="mx-1.5 flex gap-2">
               <div className="flex-grow" />
               <ComposerPrimitive.AddAttachment asChild>
                 <TooltipIconButton
-                  className="my-2.5 size-8 p-2 text-muted-foreground transition-all hover:text-foreground hover:bg-white/5"
+                  className="my-2.5 size-8 p-2 text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-100"
                   tooltip="Add Attachment"
                   variant="ghost"
                 >
@@ -119,7 +147,7 @@ const ThreadWelcome: FC = () => {
               </ComposerPrimitive.AddAttachment>
               <ComposerPrimitive.Send asChild>
                 <TooltipIconButton
-                  className="my-2.5 size-8 rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-105 text-white p-2 transition-all"
+                  className="my-2.5 size-8 rounded-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 hover:scale-105 text-white p-2 transition-all"
                   tooltip="Send"
                   variant="ghost"
                 >
@@ -136,22 +164,22 @@ const ThreadWelcome: FC = () => {
 
 const Composer: FC = () => {
   return (
-    <ComposerPrimitive.Root className="flex w-full flex-wrap items-end rounded-full border border-white/10 bg-[#202222] px-2.5 shadow-sm transition-all duration-200 focus-within:border-white/20">
+    <ComposerPrimitive.Root className="flex w-full flex-wrap items-end rounded-2xl border border-gray-200 bg-white px-4 py-2 shadow-sm transition-all duration-200 focus-within:border-gray-300 focus-within:shadow-md">
       <ComposerAttachments />
       <ComposerPrimitive.Input
         rows={1}
         autoFocus
         placeholder="Ask follow-up"
-        className="max-h-40 flex-grow resize-none border-none bg-transparent px-4 py-4 text-base outline-none placeholder:text-muted-foreground focus:ring-0 disabled:cursor-not-allowed"
+        className="max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-3 text-base outline-none placeholder:text-gray-400 focus:ring-0 disabled:cursor-not-allowed text-gray-900"
       />
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         <ComposerPrimitive.AddAttachment asChild>
           <TooltipIconButton
-            className="my-2.5 size-9 p-2 text-muted-foreground transition-all hover:text-foreground hover:bg-white/5"
+            className="my-1.5 size-8 p-2 text-gray-400 transition-all hover:text-gray-600 hover:bg-gray-100 rounded-lg"
             tooltip="Add Attachment"
             variant="ghost"
           >
-            <PaperclipIcon className="size-5" />
+            <PaperclipIcon className="size-4" />
           </TooltipIconButton>
         </ComposerPrimitive.AddAttachment>
         <ComposerAction />
@@ -168,9 +196,9 @@ const ComposerAction: FC = () => {
           <TooltipIconButton
             tooltip="Send"
             variant="ghost"
-            className="my-2.5 size-9 rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-105 text-white p-2 transition-all"
+            className="my-1.5 size-8 rounded-lg bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 hover:scale-105 text-white p-2 transition-all"
           >
-            <ArrowUpIcon className="size-5" />
+            <ArrowUpIcon className="size-4" />
           </TooltipIconButton>
         </ComposerPrimitive.Send>
       </ThreadPrimitive.If>
@@ -179,7 +207,7 @@ const ComposerAction: FC = () => {
           <TooltipIconButton
             tooltip="Stop"
             variant="ghost"
-            className="my-2.5 size-9 rounded-full bg-red-600 hover:bg-red-700 hover:scale-105 text-white p-2 transition-all"
+            className="my-1.5 size-8 rounded-lg bg-red-500 hover:bg-red-600 hover:scale-105 text-white p-2 transition-all"
           >
             <CircleStopIcon />
           </TooltipIconButton>
@@ -191,8 +219,8 @@ const ComposerAction: FC = () => {
 
 const UserMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="relative w-full max-w-[var(--thread-max-width)] gap-y-2 py-4">
-      <div className="rounded-3xl py-2.5 text-3xl break-words text-foreground">
+    <MessagePrimitive.Root className="relative w-full max-w-[var(--thread-max-width)] gap-y-2 py-3 flex justify-end">
+      <div className="rounded-2xl px-4 py-2.5 bg-blue-50 border border-blue-100 max-w-[80%] break-words text-gray-900 text-base">
         <UserMessageAttachments />
         <MessagePrimitive.Parts />
       </div>
@@ -202,12 +230,8 @@ const UserMessage: FC = () => {
 
 const AssistantMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="relative grid w-full max-w-[var(--thread-max-width)] grid-cols-[auto_auto_1fr] grid-rows-[auto_1fr] py-4">
-      <div className="col-span-2 col-start-2 row-start-1 my-1.5 max-w-[calc(var(--thread-max-width)*0.8)] leading-7 break-words text-foreground">
-        <h1 className="mb-4 inline-flex items-center gap-2 text-2xl">
-          <SparkleIcon /> Response
-        </h1>
-
+    <MessagePrimitive.Root className="relative grid w-full max-w-[var(--thread-max-width)] grid-cols-[auto_auto_1fr] grid-rows-[auto_1fr] py-3">
+      <div className="col-span-2 col-start-2 row-start-1 my-1.5 max-w-[calc(var(--thread-max-width)*0.9)] leading-7 break-words text-gray-900">
         <MessagePrimitive.Parts components={{ Text: MarkdownText }} />
       </div>
 
@@ -224,12 +248,15 @@ const AssistantActionBar: FC = () => {
       hideWhenRunning
       autohide="not-last"
       autohideFloat="single-branch"
-      className="col-start-3 row-start-2 -ml-1 flex gap-1 text-muted-foreground"
+      className="col-start-3 row-start-2 -ml-1 flex gap-1 text-gray-400"
     >
       <ActionBarPrimitive.Copy asChild>
-        <TooltipIconButton tooltip="Copy">
+        <TooltipIconButton
+          tooltip="Copy"
+          className="hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+        >
           <MessagePrimitive.If copied>
-            <CheckIcon />
+            <CheckIcon className="text-green-600" />
           </MessagePrimitive.If>
           <MessagePrimitive.If copied={false}>
             <CopyIcon />
@@ -237,7 +264,10 @@ const AssistantActionBar: FC = () => {
         </TooltipIconButton>
       </ActionBarPrimitive.Copy>
       <ActionBarPrimitive.Reload asChild>
-        <TooltipIconButton tooltip="Refresh">
+        <TooltipIconButton
+          tooltip="Refresh"
+          className="hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+        >
           <RefreshCwIcon />
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
@@ -253,21 +283,27 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
     <BranchPickerPrimitive.Root
       hideWhenSingleBranch
       className={cn(
-        "inline-flex items-center text-xs text-muted-foreground",
+        "inline-flex items-center text-xs text-gray-500",
         className,
       )}
       {...rest}
     >
       <BranchPickerPrimitive.Previous asChild>
-        <TooltipIconButton tooltip="Previous">
+        <TooltipIconButton
+          tooltip="Previous"
+          className="hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+        >
           <ChevronLeftIcon />
         </TooltipIconButton>
       </BranchPickerPrimitive.Previous>
-      <span className="font-medium">
+      <span className="font-medium mx-1">
         <BranchPickerPrimitive.Number /> / <BranchPickerPrimitive.Count />
       </span>
       <BranchPickerPrimitive.Next asChild>
-        <TooltipIconButton tooltip="Next">
+        <TooltipIconButton
+          tooltip="Next"
+          className="hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+        >
           <ChevronRightIcon />
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>

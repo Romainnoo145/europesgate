@@ -1,12 +1,12 @@
 'use client';
 
-import { Perplexity } from '@/components/perplexity/Perplexity';
+import { MainLayout } from '@/components/layout/main-layout';
 import { AssistantProvider } from './assistant-provider';
 
 export default function Home() {
   return (
     <AssistantProvider>
-      <Perplexity />
+      <MainLayout />
     </AssistantProvider>
   );
 }

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Queen RAG - AI Assistant",
-  description: "Your AI assistant powered by your knowledge base",
+  title: "Europe's Gate - Intelligence Platform",
+  description: "Europe's Gate Intelligence Platform - Knowledge exploration for the megaproject",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full bg-white`}
       >
         <div id="__next" className="h-full">
           {children}
