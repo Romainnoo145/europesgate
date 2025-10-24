@@ -28,7 +28,13 @@ import {
   UserMessageAttachments,
 } from "@/components/assistant-ui/attachment";
 
-export const Thread: FC = () => {
+interface ThreadProps {
+  chatId?: string;
+  onSaveChat?: (title: string, messages: unknown[]) => void;
+  onNewChat?: () => void;
+}
+
+export const Thread: FC<ThreadProps> = () => {
   return (
     <ThreadPrimitive.Root
       className="box-border h-full bg-gradient-to-b from-white to-gray-50"
