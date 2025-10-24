@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(python:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(python3:*)",
+      "Bash(source venv/bin/activate)",
+      "Bash(pip install:*)",
+      "Bash(PORT=3006 npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
