@@ -26,6 +26,11 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
+  const handleNewChat = () => {
+    onNewChat();
+    setIsOpen(false);
+  };
+
   const navItems = [
     {
       id: "home" as const,
@@ -77,7 +82,7 @@ export const Sidebar: FC<SidebarProps> = ({
         {/* Logo Section */}
         <div className="p-6 border-b border-gray-100">
           <button
-            onClick={onNewChat}
+            onClick={handleNewChat}
             className="flex items-center gap-3 w-full p-3 rounded-xl bg-gradient-to-r from-blue-50 to-blue-50 hover:from-blue-100 hover:to-blue-100 transition-all duration-200 active:scale-95"
             title="New chat"
           >
