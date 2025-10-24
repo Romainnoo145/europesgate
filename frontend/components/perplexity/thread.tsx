@@ -83,13 +83,6 @@ const ThreadScrollToBottom: FC = () => {
 };
 
 const ThreadWelcome: FC = () => {
-  const prompts = [
-    "What's the steel island synergy with hydrogen?",
-    "Tell me about the investment phases",
-    "How does EU funding work for this project?",
-    "What are the main risks and mitigations?",
-  ];
-
   return (
     <div className="flex h-full w-full flex-col bg-gradient-to-b from-white to-gray-50">
       <div className="flex h-full w-full items-center justify-center px-4">
@@ -112,10 +105,26 @@ const ThreadWelcome: FC = () => {
               Quick start prompts
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {prompts.map((prompt) => (
+              {[
+                "What's the steel island synergy with hydrogen?",
+                "Tell me about the investment phases",
+                "How does EU funding work for this project?",
+                "What are the main risks and mitigations?",
+              ].map((prompt) => (
                 <button
                   key={prompt}
-                  className="p-3 text-left text-sm rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 active:scale-95 font-medium"
+                  onClick={() => {
+                    // This will be handled by the AssistantUI context
+                    const input =
+                      document.querySelector<HTMLTextAreaElement>(
+                        'textarea[placeholder="Ask follow-up"]'
+                      );
+                    if (input) {
+                      input.value = prompt;
+                      input.focus();
+                    }
+                  }}
+                  className="p-3 text-left text-sm rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors"
                 >
                   {prompt}
                 </button>
