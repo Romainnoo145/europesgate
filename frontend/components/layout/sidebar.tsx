@@ -70,79 +70,77 @@ export const Sidebar: FC<SidebarProps> = ({
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed md:relative flex flex-col h-full w-64 bg-white border-r border-gray-200 transition-transform duration-300 z-40",
+          "fixed md:relative flex flex-col h-full w-64 bg-white border-r border-gray-100 transition-transform duration-300 z-40",
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
-        {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
+        {/* Logo Section */}
+        <div className="p-6 border-b border-gray-100">
           <button
             onClick={onNewChat}
-            className="flex items-center gap-3 mb-4 p-3 rounded-lg hover:bg-gray-100 transition-colors w-full"
+            className="flex items-center gap-3 w-full p-3 rounded-xl bg-gradient-to-r from-blue-50 to-blue-50 hover:from-blue-100 hover:to-blue-100 transition-all duration-200 active:scale-95"
             title="New chat"
           >
-            <Zap size={28} className="text-blue-600 fill-blue-100" />
-            <div className="text-left">
-              <h2 className="text-lg font-bold text-gray-900">Europe&apos;s Gate</h2>
-              <p className="text-xs text-gray-500">Click logo for new chat</p>
+            <Zap size={28} className="text-blue-600 flex-shrink-0" />
+            <div className="text-left min-w-0">
+              <h2 className="text-sm font-bold text-gray-900">Europe&apos;s Gate</h2>
+              <p className="text-xs text-gray-500 truncate">New chat</p>
             </div>
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto p-4">
-          <div className="space-y-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
+        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
 
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    onTabChange(item.id);
-                    setIsOpen(false);
-                  }}
-                  className={cn(
-                    "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left font-medium",
-                    isActive
-                      ? "bg-gradient-to-r from-blue-50 to-teal-50 text-blue-900 border border-blue-200"
-                      : "text-gray-700 hover:bg-gray-50"
-                  )}
-                >
-                  <Icon size={20} />
-                  <span>{item.label}</span>
-                  {isActive && (
-                    <span className="ml-auto text-xs text-gray-500">
-                      {item.shortcut}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  onTabChange(item.id);
+                  setIsOpen(false);
+                }}
+                className={cn(
+                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 active:scale-95",
+                  isActive
+                    ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-md hover:shadow-lg"
+                    : "text-gray-700 hover:bg-gray-100 active:bg-gray-200"
+                )}
+              >
+                <Icon size={20} />
+                <span className="flex-1 text-left text-sm">{item.label}</span>
+              </button>
+            );
+          })}
         </nav>
+
+        {/* Divider */}
+        <div className="px-4">
+          <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+        </div>
 
         {/* Recent Chats */}
         {chatSessions.length > 0 && (
-          <div className="flex flex-col border-t border-gray-200 overflow-hidden">
+          <div className="flex-shrink-0 border-t border-gray-100 overflow-hidden">
             <div className="p-4">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                Recent Chats
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 px-2">
+                Recent
               </p>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
+              <div className="space-y-1 max-h-40 overflow-y-auto">
                 {chatSessions.map((session) => (
                   <div
                     key={session.id}
                     className={cn(
-                      "group flex items-center justify-between gap-2 p-2 rounded-lg text-sm transition-colors cursor-pointer",
+                      "group flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200 cursor-pointer active:scale-95",
                       currentChatId === session.id
-                        ? "bg-blue-50 text-blue-900"
-                        : "text-gray-700 hover:bg-gray-50"
+                        ? "bg-blue-100 text-blue-900 font-medium"
+                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                     )}
                     onClick={() => onLoadChat(session.id)}
                   >
-                    <span className="truncate flex-1 text-xs">
+                    <span className="truncate flex-1 text-xs leading-tight">
                       {session.title}
                     </span>
                     <button
@@ -150,9 +148,9 @@ export const Sidebar: FC<SidebarProps> = ({
                         e.stopPropagation();
                         onDeleteChat(session.id);
                       }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded"
+                      className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 hover:text-red-600 rounded-md"
                     >
-                      <Trash2 size={14} className="text-red-500" />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 ))}
@@ -162,9 +160,9 @@ export const Sidebar: FC<SidebarProps> = ({
         )}
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 text-xs text-gray-500 mt-auto">
-          <p>Documents loaded: 11</p>
-          <p className="mt-1">v0.1.0 - Beta</p>
+        <div className="flex-shrink-0 p-4 border-t border-gray-100 text-xs text-gray-400 space-y-1">
+          <p>📄 11 documents</p>
+          <p>v0.1.0</p>
         </div>
       </div>
 

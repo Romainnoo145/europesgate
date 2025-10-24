@@ -79,7 +79,7 @@ export const SocialsTab: FC = () => {
                   {/* Disabled button */}
                   <button
                     disabled
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg font-medium cursor-not-allowed opacity-60"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-500 rounded-xl font-medium cursor-not-allowed opacity-70 hover:opacity-70 transition-opacity"
                   >
                     Coming Soon <ArrowRight size={16} />
                   </button>
