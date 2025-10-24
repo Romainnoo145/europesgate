@@ -19,6 +19,7 @@ export const MainLayout: FC = () => {
   >("home");
   const [currentChatId, setCurrentChatId] = useState<string>("");
   const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
+  const [newChatCounter, setNewChatCounter] = useState<number>(0);
 
   // Load chat history from localStorage on mount
   useEffect(() => {
@@ -39,6 +40,7 @@ export const MainLayout: FC = () => {
 
   const handleNewChat = () => {
     setCurrentChatId("");
+    setNewChatCounter((prev) => prev + 1); // Force Thread remount
     setActiveTab("home");
   };
 
@@ -99,6 +101,7 @@ export const MainLayout: FC = () => {
         <div className="flex-1 overflow-hidden">
           {activeTab === "home" && (
             <Thread
+              key={`${currentChatId}-${newChatCounter}`}
               chatId={currentChatId}
               onSaveChat={handleSaveChat}
               onNewChat={handleNewChat}
