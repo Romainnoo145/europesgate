@@ -1,16 +1,18 @@
+import os
 from typing import Any
 
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class RAGSettings(BaseSettings):
     """
     RAGLight and OpenAI configuration settings.
     """
+    model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', extra='allow')
 
     # OpenAI Settings
-    openai_api_key: str = Field(default="", validation_alias="OPENAI_API_KEY")
+    openai_api_key: str = Field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
     openai_model: str = Field(default="gpt-4o", validation_alias="OPENAI_MODEL")
     openai_embedding_model: str = Field(default="text-embedding-3-small", validation_alias="OPENAI_EMBEDDING_MODEL")
 
@@ -31,13 +33,6 @@ class RAGSettings(BaseSettings):
     # System Settings
     environment: str = Field(default="development", validation_alias="ENVIRONMENT")
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
-
-    model_config = {
-        "env_file": ".env",
-        "env_file_encoding": "utf-8",
-        "case_sensitive": False,
-        "extra": "allow"
-    }
 
 
 # Create singleton instance

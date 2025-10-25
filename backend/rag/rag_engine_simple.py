@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from collections.abc import AsyncIterator
 from pathlib import Path
 from typing import Any
@@ -19,8 +20,16 @@ class QueenRAGEngine:
     """
 
     def __init__(self) -> None:
+        # Get API key directly from environment or settings
+        api_key = os.getenv("OPENAI_API_KEY") or settings.openai_api_key
+
+        # Debug: Log what we got
+        logger.info(f"API Key from os.getenv: {os.getenv('OPENAI_API_KEY')[:20] if os.getenv('OPENAI_API_KEY') else 'None'}")
+        logger.info(f"API Key from settings: {settings.openai_api_key[:20] if settings.openai_api_key else 'Empty'}")
+        logger.info(f"Final API key: {api_key[:20] if api_key else 'None/Empty'}")
+
         # Initialize OpenAI client
-        self.openai_client = AsyncOpenAI(api_key=settings.openai_api_key)
+        self.openai_client = AsyncOpenAI(api_key=api_key)
 
         # Initialize ChromaDB with OpenAI embeddings
         self.chroma_client = chromadb.PersistentClient(
@@ -29,7 +38,7 @@ class QueenRAGEngine:
 
         # Create embedding function
         self.embedding_function = embedding_functions.OpenAIEmbeddingFunction(  # type: ignore[attr-defined]
-            api_key=settings.openai_api_key,
+            api_key=api_key,
             model_name=settings.openai_embedding_model
         )
 
