@@ -17,6 +17,7 @@ import { ChatSession } from "./main-layout";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ApiKeyModal } from "@/components/modals/api-key-modal";
 import { useLanguage } from "@/contexts/language-context";
+import { getApiUrl } from "@/lib/utils";
 
 interface ModernSidebarProps {
   activeTab: "home" | "knowledge" | "socials" | "settings";
@@ -60,7 +61,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
   useEffect(() => {
     const fetchUsage = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+        const apiUrl = getApiUrl();
         const response = await fetch(`${apiUrl}/api/usage/credits`);
         if (response.ok) {
           const data = await response.json();
