@@ -17,7 +17,7 @@ const translations: Translations = {
   "sidebar.knowledgeBase": { en: "Knowledge Base", nl: "Knowledge Base" },
   "sidebar.socialMedia": { en: "Social Media", nl: "Social Media" },
   "sidebar.recentChats": { en: "Recent Chats", nl: "Recente Chats" },
-  "sidebar.comingSoon": { en: "Coming Soon", nl: "Binnenkort" },
+  "sidebar.comingSoon": { en: "Coming Soon", nl: "Binnenkort beschikbaar" },
   "sidebar.chatHistoryDesc": { en: "Chat history will be available in a future update", nl: "Chat geschiedenis komt beschikbaar in een toekomstige update" },
   "sidebar.credits": { en: "Credits", nl: "Credits" },
   "sidebar.setApiKey": { en: "Set API Key", nl: "Stel API Key in" },
