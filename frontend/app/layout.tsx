@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_GB",
     alternateLocale: ["nl_NL"],
-    url: "https://europesgate.com",
+    url: "https://europes-gate.klarifai.nl",
     siteName: "Europe's Gate",
     title: "Europe's Gate - Intelligence Platform",
     description: "Strategic AI advisor for the €50-100B Europe's Gate megaproject: 360km North Sea bridge connecting London to Amsterdam/Rotterdam with green steel, hydrogen infrastructure, and circular urban innovation.",
@@ -65,13 +65,13 @@ export const metadata: Metadata = {
     site: "@EuropesGate",
   },
   alternates: {
-    canonical: "https://europesgate.com",
+    canonical: "https://europes-gate.klarifai.nl",
     languages: {
-      'en-GB': 'https://europesgate.com/en',
-      'nl-NL': 'https://europesgate.com/nl',
+      'en-GB': 'https://europes-gate.klarifai.nl/en',
+      'nl-NL': 'https://europes-gate.klarifai.nl/nl',
     },
   },
-  metadataBase: new URL('https://europesgate.com'),
+  metadataBase: new URL('https://europes-gate.klarifai.nl'),
   category: "Infrastructure",
 };
 
