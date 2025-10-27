@@ -9,10 +9,15 @@ class RAGSettings(BaseSettings):
     """
     RAGLight and OpenAI configuration settings.
     """
-    model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', extra='allow')
+    model_config = SettingsConfigDict(
+        env_file='.env',
+        env_file_encoding='utf-8',
+        extra='allow',
+        case_sensitive=False  # Allow case-insensitive matching
+    )
 
     # OpenAI Settings
-    openai_api_key: str = Field(default="")
+    openai_api_key: str = Field(default="", validation_alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4o", validation_alias="OPENAI_MODEL")
     openai_embedding_model: str = Field(default="text-embedding-3-small", validation_alias="OPENAI_EMBEDDING_MODEL")
 

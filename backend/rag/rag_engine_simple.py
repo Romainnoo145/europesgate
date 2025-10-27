@@ -22,8 +22,17 @@ class QueenRAGEngine:
     """
 
     def __init__(self) -> None:
+        # Debug: Check all OpenAI-related env vars
+        import sys
+        logger.info(f"All env vars containing 'OPENAI': {[k for k in os.environ.keys() if 'OPENAI' in k]}")
+        logger.info(f"Raw OPENAI_API_KEY from environ: {repr(os.environ.get('OPENAI_API_KEY'))}")
+
         # Get API key directly from environment or settings
         api_key = os.getenv("OPENAI_API_KEY") or settings.openai_api_key
+
+        # Strip whitespace if present
+        if api_key:
+            api_key = api_key.strip()
 
         # Debug: Log what we got
         logger.info(f"API Key from os.getenv: {os.getenv('OPENAI_API_KEY')[:20] if os.getenv('OPENAI_API_KEY') else 'None'}")
