@@ -286,9 +286,19 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
               })}
             </div>
             <div className="flex justify-between text-[10px] text-white/50 px-0.5">
-              {['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'].map((day, i) => (
-                <span key={i} className="flex-1 text-center">{day}</span>
-              ))}
+              {(() => {
+                const dayNames = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+                const today = new Date();
+                const labels = [];
+                for (let i = 6; i >= 0; i--) {
+                  const date = new Date(today);
+                  date.setDate(date.getDate() - i);
+                  labels.push(dayNames[date.getDay()]);
+                }
+                return labels.map((day, i) => (
+                  <span key={i} className="flex-1 text-center">{day}</span>
+                ));
+              })()}
             </div>
           </div>
         </div>
