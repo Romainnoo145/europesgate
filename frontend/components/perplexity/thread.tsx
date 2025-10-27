@@ -498,7 +498,7 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
         }
 
         finalContent += `---\n\n`;
-        finalContent += `*This intelligence brief was created from AI chat conversation to support iterative project scoping and decision-making for Europe's Gate.*\n`;
+        finalContent += `*This intelligence brief was created from AI chat conversation to support iterative project scoping and decision-making for Europe&apos;s Gate.*\n`;
       }
 
       // Create a markdown file with the formatted content

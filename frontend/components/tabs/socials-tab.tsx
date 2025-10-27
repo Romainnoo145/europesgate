@@ -17,7 +17,7 @@ const socialChannels = [
   {
     id: "linkedin" as const,
     title: "LinkedIn Post",
-    description: "Share Europe's Gate insights directly to LinkedIn as engaging posts",
+    description: "Share Europe&apos;s Gate insights directly to LinkedIn as engaging posts",
     icon: Linkedin,
     gradient: "from-blue-500 to-blue-600",
     placeholderTopic: "Share insights about sustainable steel production...",

@@ -161,7 +161,7 @@ ${conversationText}`,
         });
 
         finalContent += `---\n\n`;
-        finalContent += `*This conversation transcript was saved from the Europe's Gate Intelligence Platform.*\n`;
+        finalContent += `*This conversation transcript was saved from the Europe&apos;s Gate Intelligence Platform.*\n`;
       } else {
         // Intelligence Brief format
         finalContent = `# ${documentName}\n\n`;
@@ -194,7 +194,7 @@ ${conversationText}`,
         }
 
         finalContent += `---\n\n`;
-        finalContent += `*This intelligence brief was created from AI chat conversation to support iterative project scoping and decision-making for Europe's Gate.*\n`;
+        finalContent += `*This intelligence brief was created from AI chat conversation to support iterative project scoping and decision-making for Europe&apos;s Gate.*\n`;
       }
 
       // Create a markdown file with the formatted content

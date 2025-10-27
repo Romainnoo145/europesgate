@@ -97,7 +97,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ onResetChat }) => {
           // Extract text content from message parts
           const textContent = msg.content
             .filter((part: { type: string; text?: string }) => part.type === "text")
-            .map((part: { type: string; text?: string }) => part.text)
+            .map((part: { type: string; text?: string }) => part.text || "")
             .join("\n\n");
 
           if (textContent.trim()) {
