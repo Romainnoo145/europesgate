@@ -77,6 +77,7 @@ allowed_origins = [
     "http://localhost:3002",
     "http://localhost:3006",
     "https://frontend-europes-gate-rag-production.up.railway.app",
+    "https://europes-gate.klarifai.nl",  # Custom domain
 ]
 
 app.add_middleware(
