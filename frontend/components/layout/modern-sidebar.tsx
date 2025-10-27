@@ -46,7 +46,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
     used_credits: 0,
     usage_percentage: 0,
     total_cost_eur: 0,
-    daily_usage: []
+    daily_usage: Array(7).fill({ tokens: 0, cost_eur: 0 })
   });
 
   // Fetch usage data on mount and every 30 seconds
