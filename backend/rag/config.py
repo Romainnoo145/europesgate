@@ -21,6 +21,10 @@ class RAGSettings(BaseSettings):
     openai_model: str = Field(default="gpt-4o", validation_alias="OPENAI_MODEL")
     openai_embedding_model: str = Field(default="text-embedding-3-small", validation_alias="OPENAI_EMBEDDING_MODEL")
 
+    # Web Search Settings (Coming Soon)
+    tavily_api_key: str = Field(default="", validation_alias="TAVILY_API_KEY")
+    web_search_enabled: bool = Field(default=False, validation_alias="WEB_SEARCH_ENABLED")
+
     # Chroma Settings
     chroma_persist_directory: str = Field(default="./storage/chroma_db", validation_alias="CHROMA_PERSIST_DIRECTORY")
     chroma_collection_name: str = Field(default="queen_rag_collection", validation_alias="CHROMA_COLLECTION_NAME")

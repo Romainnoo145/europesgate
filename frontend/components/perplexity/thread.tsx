@@ -86,6 +86,7 @@ const ThreadScrollToBottom: FC = () => {
 const ThreadWelcome: FC = () => {
   const { t } = useLanguage();
   const [promptValue, setPromptValue] = useState("");
+  const [showComingSoon, setShowComingSoon] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleQuickPrompt = (prompt: string) => {
@@ -180,6 +181,16 @@ const ThreadWelcome: FC = () => {
               placeholder={t("thread.inputPlaceholder")}
               className="flex-grow resize-none border-none bg-transparent text-base outline-none placeholder:text-gray-400 focus:ring-0 disabled:cursor-not-allowed text-gray-900"
             />
+            <button
+              type="button"
+              onClick={() => setShowComingSoon(true)}
+              className="p-2 text-gray-400 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-all group"
+              title={t("thread.comingSoonTitle")}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </button>
             <ComposerPrimitive.Send asChild>
               <button
                 className="px-6 py-2.5 rounded-xl text-white text-sm font-semibold transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
@@ -193,6 +204,48 @@ const ThreadWelcome: FC = () => {
           </div>
         </ComposerPrimitive.Root>
       </div>
+
+      {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden animate-fade-in">
+            <div className="relative px-6 pt-6 pb-4 border-b border-gray-100">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">{t("thread.comingSoonTitle")}</h2>
+                  <p className="text-sm text-gray-500">{t("thread.comingSoonDesc")}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowComingSoon(false)}
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="px-6 py-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { title: t("thread.feature1"), desc: t("thread.feature1Desc"), icon: "🌐" },
+                  { title: t("thread.feature2"), desc: t("thread.feature2Desc"), icon: "📄" },
+                  { title: t("thread.feature3"), desc: t("thread.feature3Desc"), icon: "🧮" },
+                ].map((feature, idx) => (
+                  <div key={idx} className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-white border border-gray-200">
+                    <div className="text-3xl mb-3">{feature.icon}</div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-2">{feature.title}</h4>
+                    <p className="text-xs text-gray-600 leading-relaxed">{feature.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

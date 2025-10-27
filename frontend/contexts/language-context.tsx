@@ -32,6 +32,14 @@ const translations: Translations = {
   "thread.quickPrompt3": { en: "Explain the financial structure and funding strategy.", nl: "Leg de financial structuur en funding strategy uit." },
   "thread.quickPrompt4": { en: "What do I need to know for the next investor meeting?", nl: "Wat moet ik weten voor de volgende investor meeting?" },
   "thread.inputPlaceholder": { en: "Ask me anything...", nl: "Vraag me alles..." },
+  "thread.comingSoonTitle": { en: "Coming Soon", nl: "Binnenkort Beschikbaar" },
+  "thread.comingSoonDesc": { en: "Enhanced capabilities in development", nl: "Verbeterde functionaliteiten in ontwikkeling" },
+  "thread.feature1": { en: "Live Web Search", nl: "Live Web Search" },
+  "thread.feature1Desc": { en: "Real-time market data, regulatory updates, and competitor intelligence", nl: "Real-time marktdata, regelgeving updates en concurrent intelligence" },
+  "thread.feature2": { en: "Export to Report", nl: "Export naar Rapport" },
+  "thread.feature2Desc": { en: "Generate professional PDF/Word reports from conversations", nl: "Genereer professionele PDF/Word rapporten uit gesprekken" },
+  "thread.feature3": { en: "Financial Calculator", nl: "Financiële Calculator" },
+  "thread.feature3Desc": { en: "Embedded NPV, IRR, and ROI calculators for quick analysis", nl: "Geïntegreerde NPV, IRR en ROI calculators voor snelle analyse" },
 
   // Settings
   "settings.accountSettings": { en: "Account Settings", nl: "Account Instellingen" },
