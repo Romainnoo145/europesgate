@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { LanguageProvider } from "@/contexts/language-context";
@@ -81,16 +81,18 @@ export const metadata: Metadata = {
       'nl-NL': 'https://europesgate.com/nl',
     },
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+  metadataBase: new URL('https://europesgate.com'),
+  category: "Infrastructure",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#4318FF" },
     { media: "(prefers-color-scheme: dark)", color: "#868CFF" },
   ],
-  category: "Infrastructure",
 };
 
 export default function RootLayout({
