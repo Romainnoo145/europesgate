@@ -110,7 +110,7 @@ const ThreadWelcome: FC = () => {
     }
   };
 
-  const greeting = "Hi Matt";
+  const greeting = "Hé Romano";
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-b from-white to-gray-50 px-4">
@@ -142,16 +142,16 @@ const ThreadWelcome: FC = () => {
             </span>
           </div>
           <p className="text-lg text-gray-600 text-center font-medium opacity-0 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            Let&apos;s iterate some more on Europe&apos;s Gate
+            Laten we verder itereren op Europe&apos;s Gate
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            "What's the multi-SPV governance structure and why is it important?",
-            "How does CSRD compliance provide competitive advantage for EU funding?",
-            "What are the critical risk mitigation strategies for the £12-15B budget?",
-            "Explain the partnership ecosystem between UK, Netherlands, and EU institutions",
+            "Wat is de multi-SPV governance structuur en waarom is het belangrijk?",
+            "Hoe zorgt CSRD compliance voor competitief voordeel bij EU funding?",
+            "Wat zijn de kritieke risk mitigation strategieën voor het £12-15B budget?",
+            "Leg het partnership ecosystem uit tussen UK, Nederland en EU instituties",
           ].map((prompt) => (
             <button
               key={prompt}
@@ -181,7 +181,7 @@ const ThreadWelcome: FC = () => {
               }}
               rows={1}
               autoFocus
-              placeholder="Type your message here..."
+              placeholder="Typ je bericht hier..."
               className="flex-grow resize-none border-none bg-transparent text-base outline-none placeholder:text-gray-400 focus:ring-0 disabled:cursor-not-allowed text-gray-900"
             />
             <ComposerPrimitive.Send asChild>
@@ -191,7 +191,7 @@ const ThreadWelcome: FC = () => {
                   background: "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)",
                 }}
               >
-                Submit
+                Verstuur
               </button>
             </ComposerPrimitive.Send>
           </div>
@@ -213,7 +213,7 @@ const Composer: FC<ComposerProps> = ({ onSaveConversation }) => {
         <ComposerPrimitive.Input
           rows={1}
           autoFocus
-          placeholder="Type your message here..."
+          placeholder="Typ je bericht hier..."
           className="flex-grow resize-none border-none bg-transparent text-base outline-none placeholder:text-gray-400 focus:ring-0 disabled:cursor-not-allowed text-gray-900"
         />
         <ComposerAction onSaveConversation={onSaveConversation} />
@@ -234,10 +234,10 @@ const ComposerAction: FC<ComposerActionProps> = ({ onSaveConversation }) => {
         <button
           onClick={onSaveConversation}
           className="px-4 py-2.5 rounded-xl border-2 border-[#4318FF] text-[#4318FF] text-sm font-semibold transition-all hover:bg-[#4318FF] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          title="Save this conversation to Knowledge Base"
+          title="Bewaar deze conversatie in de Knowledge Base"
         >
           <BookmarkPlus className="w-4 h-4" />
-          <span className="hidden sm:inline">Save</span>
+          <span className="hidden sm:inline">Bewaar</span>
         </button>
       </ThreadPrimitive.If>
 
@@ -250,7 +250,7 @@ const ComposerAction: FC<ComposerActionProps> = ({ onSaveConversation }) => {
               background: "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)",
             }}
           >
-            Submit
+            Verstuur
           </button>
         </ComposerPrimitive.Send>
       </ThreadPrimitive.If>
@@ -371,12 +371,12 @@ interface SaveToKnowledgeModalProps {
 }
 
 const KNOWLEDGE_CATEGORIES = [
-  { id: "economics", label: "📊 Economics", description: "Financial data, costs, ROI" },
-  { id: "builds", label: "🏗️ Builds", description: "Technical specs, construction" },
-  { id: "subsidies", label: "💰 Subsidies", description: "Grants, funding opportunities" },
-  { id: "regulations", label: "📋 Regulations", description: "Compliance, legal requirements" },
-  { id: "market", label: "🌍 Market Research", description: "Competition, trends, analysis" },
-  { id: "general", label: "📝 General", description: "Uncategorized information" },
+  { id: "economics", label: "📊 Economics", description: "Financiële data, kosten, ROI" },
+  { id: "builds", label: "🏗️ Builds", description: "Technische specs, constructie" },
+  { id: "subsidies", label: "💰 Subsidies", description: "Grants, funding opties" },
+  { id: "regulations", label: "📋 Regulations", description: "Compliance, wettelijke vereisten" },
+  { id: "market", label: "🌍 Market Research", description: "Competitie, trends, analyse" },
+  { id: "general", label: "📝 Algemeen", description: "Ongecategoriseerde informatie" },
 ];
 
 const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose }) => {
@@ -484,7 +484,7 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900">Save to Knowledge Base</h2>
+          <h2 className="text-xl font-bold text-gray-900">Bewaar in Knowledge Base</h2>
           <button
             onClick={onClose}
             className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
@@ -513,7 +513,7 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
                   📝 Quick Note
                 </div>
                 <div className="text-xs text-gray-500">
-                  Save as-is for reference
+                  Bewaar as-is voor referentie
                 </div>
               </button>
               <button
@@ -528,7 +528,7 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
                   📊 Intelligence Brief
                 </div>
                 <div className="text-xs text-gray-500">
-                  Rich context + questions
+                  Met context + vragen
                 </div>
               </button>
             </div>
@@ -537,14 +537,14 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
           {/* Document Name */}
           <div>
             <label htmlFor="docName" className="block text-sm font-semibold text-gray-900 mb-2">
-              Document Name
+              Document Naam
             </label>
             <input
               id="docName"
               type="text"
               value={documentName}
               onChange={(e) => setDocumentName(e.target.value)}
-              placeholder="e.g., Steel Island Economics Overview"
+              placeholder="bijv. Steel Island Economics Overzicht"
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
             />
           </div>
@@ -552,9 +552,9 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
           {/* Category Selection */}
           <div>
             <label className="block text-sm font-semibold text-gray-900 mb-3">
-              Category {suggestedCategory !== "general" && (
+              Categorie {suggestedCategory !== "general" && (
                 <span className="text-xs font-normal text-[#4318FF]">
-                  (AI Suggested: {KNOWLEDGE_CATEGORIES.find(c => c.id === suggestedCategory)?.label})
+                  (AI Suggestie: {KNOWLEDGE_CATEGORIES.find(c => c.id === suggestedCategory)?.label})
                 </span>
               )}
             </label>
@@ -585,20 +585,20 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
             <>
               <div className="p-4 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200">
                 <p className="text-sm text-gray-700 leading-relaxed">
-                  <strong className="text-[#4318FF]">Intelligence Briefs</strong> create rich, narrative-driven documentation that the AI can reason about.
-                  Add context, open questions, and next steps to build comprehensive project intelligence.
+                  <strong className="text-[#4318FF]">Intelligence Briefs</strong> maken rijke, verhaal-gedreven documentatie waar de AI over kan redeneren.
+                  Voeg context, open vragen en volgende stappen toe om uitgebreide project intelligence op te bouwen.
                 </p>
               </div>
 
               <div>
                 <label htmlFor="briefContext" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Context & Background <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                  Context & Achtergrond <span className="text-xs font-normal text-gray-500">(Optioneel)</span>
                 </label>
                 <textarea
                   id="briefContext"
                   value={briefContext}
                   onChange={(e) => setBriefContext(e.target.value)}
-                  placeholder="Why is this information important? What's the broader context? What problem does it address?"
+                  placeholder="Waarom is deze info belangrijk? Wat is de bredere context? Welk probleem lost het op?"
                   rows={3}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all resize-none"
                 />
@@ -606,13 +606,13 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
 
               <div>
                 <label htmlFor="keyQuestions" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Open Questions <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                  Open Vragen <span className="text-xs font-normal text-gray-500">(Optioneel)</span>
                 </label>
                 <textarea
                   id="keyQuestions"
                   value={keyQuestions}
                   onChange={(e) => setKeyQuestions(e.target.value)}
-                  placeholder="What questions remain unanswered? What uncertainties exist? What assumptions need validation?"
+                  placeholder="Welke vragen blijven onbeantwoord? Welke onzekerheden bestaan? Welke aannames moeten gevalideerd?"
                   rows={3}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all resize-none"
                 />
@@ -620,13 +620,13 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
 
               <div>
                 <label htmlFor="nextSteps" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Next Steps <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                  Volgende Stappen <span className="text-xs font-normal text-gray-500">(Optioneel)</span>
                 </label>
                 <textarea
                   id="nextSteps"
                   value={nextSteps}
                   onChange={(e) => setNextSteps(e.target.value)}
-                  placeholder="What research or actions should follow? Who should we talk to? What data do we need?"
+                  placeholder="Welk onderzoek of acties moeten volgen? Met wie moeten we praten? Welke data hebben we nodig?"
                   rows={3}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all resize-none"
                 />
@@ -654,7 +654,7 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
             className="px-6 py-2.5 text-sm font-semibold text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
             disabled={saving}
           >
-            Cancel
+            Annuleer
           </button>
           <button
             onClick={handleSave}
@@ -665,10 +665,10 @@ const SaveToKnowledgeModal: FC<SaveToKnowledgeModalProps> = ({ content, onClose 
             }}
           >
             {saving
-              ? "Saving..."
+              ? "Bezig met opslaan..."
               : saveFormat === "brief"
-                ? "Save Intelligence Brief"
-                : "Save Quick Note"
+                ? "Bewaar Intelligence Brief"
+                : "Bewaar Quick Note"
             }
           </button>
         </div>
