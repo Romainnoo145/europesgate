@@ -84,13 +84,71 @@ class QueenRAGEngine:
 
     async def _load_document_metadata(self) -> None:
         """
-        Load metadata about existing documents in the knowledge base.
+        Load metadata about existing documents and process them into ChromaDB if needed.
+        This enables pre-loaded documents in Docker images to work automatically.
         """
         doc_path = Path(settings.upload_directory)
-        if doc_path.exists():
-            for file_path in doc_path.iterdir():
-                if file_path.is_file() and not file_path.name.endswith('.meta.json'):
-                    self.loaded_documents.add(file_path.name)
+        if not doc_path.exists():
+            logger.info("No documents directory found, skipping auto-load")
+            return
+
+        # Get all documents currently in ChromaDB
+        if self.collection is None:
+            logger.warning("Collection not initialized, cannot load documents")
+            return
+
+        # Get existing document IDs from ChromaDB
+        try:
+            all_items = self.collection.get()
+            existing_docs = set()
+            if all_items['metadatas']:
+                for metadata in all_items['metadatas']:
+                    if isinstance(metadata, dict) and 'filename' in metadata:
+                        existing_docs.add(metadata['filename'])
+        except Exception as e:
+            logger.warning(f"Could not retrieve existing documents from ChromaDB: {e}")
+            existing_docs = set()
+
+        # Process all documents in the directory
+        processed_count = 0
+        skipped_count = 0
+
+        for file_path in doc_path.iterdir():
+            if not file_path.is_file() or file_path.name.endswith('.meta.json'):
+                continue
+
+            filename = file_path.name
+
+            # Check if already in ChromaDB
+            if filename in existing_docs:
+                self.loaded_documents.add(filename)
+                skipped_count += 1
+                continue
+
+            # Load document into ChromaDB
+            try:
+                logger.info(f"Auto-loading document: {filename}")
+
+                # Load metadata if exists
+                metadata = None
+                metadata_path = file_path.with_suffix('.meta.json')
+                if metadata_path.exists():
+                    with open(metadata_path) as f:
+                        metadata = json.load(f)
+
+                # Add document to RAG (this will chunk, embed, and store it)
+                result = await self.add_document(str(file_path), metadata)
+
+                if result.get('status') == 'success':
+                    processed_count += 1
+                    logger.info(f"Successfully auto-loaded: {filename}")
+                else:
+                    logger.warning(f"Failed to auto-load {filename}: {result.get('message')}")
+
+            except Exception as e:
+                logger.error(f"Error auto-loading {filename}: {e}")
+
+        logger.info(f"Auto-load complete: {processed_count} documents processed, {skipped_count} already existed")
 
     def _extract_content(self, file_path: str) -> str:
         """
