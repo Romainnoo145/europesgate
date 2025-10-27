@@ -42,19 +42,11 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
   const [usageData, setUsageData] = useState({
-    total_credits: 1000000,
-    used_credits: 214316,
-    usage_percentage: 21.43,
-    total_cost_eur: 1.52,
-    daily_usage: [
-      { tokens: 214316, cost_eur: 1.52 },
-      { tokens: 0, cost_eur: 0 },
-      { tokens: 0, cost_eur: 0 },
-      { tokens: 0, cost_eur: 0 },
-      { tokens: 0, cost_eur: 0 },
-      { tokens: 0, cost_eur: 0 },
-      { tokens: 0, cost_eur: 0 }
-    ]
+    total_credits: 100000,
+    used_credits: 0,
+    usage_percentage: 0,
+    total_cost_eur: 0,
+    daily_usage: []
   });
 
   // Fetch usage data on mount and every 30 seconds
@@ -65,12 +57,17 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
         const response = await fetch(`${apiUrl}/api/usage/credits`);
         if (response.ok) {
           const data = await response.json();
+          // Ensure daily_usage always has 7 days
+          const dailyUsage = data.daily_usage || [];
+          const paddedDailyUsage = Array(7).fill(null).map((_, i) =>
+            dailyUsage[i] || { tokens: 0, cost_eur: 0 }
+          );
           setUsageData({
-            total_credits: data.total_credits,
-            used_credits: data.used_credits,
-            usage_percentage: data.usage_percentage,
+            total_credits: data.total_credits || 100000,
+            used_credits: data.used_credits || 0,
+            usage_percentage: data.usage_percentage || 0,
             total_cost_eur: data.total_cost_eur || 0,
-            daily_usage: data.daily_usage || []
+            daily_usage: paddedDailyUsage
           });
         }
       } catch (error) {
