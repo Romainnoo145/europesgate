@@ -28,7 +28,8 @@ class QueenRAGEngine:
         logger.info(f"Raw OPENAI_API_KEY from environ: {repr(os.environ.get('OPENAI_API_KEY'))}")
 
         # Get API key directly from environment or settings
-        api_key = os.getenv("OPENAI_API_KEY") or settings.openai_api_key
+        # TEMP FIX: Railway has variable with trailing space
+        api_key = os.getenv("OPENAI_API_KEY ") or os.getenv("OPENAI_API_KEY") or settings.openai_api_key
 
         # Strip whitespace if present
         if api_key:
