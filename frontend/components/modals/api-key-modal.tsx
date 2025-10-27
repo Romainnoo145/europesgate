@@ -122,7 +122,7 @@ export const ApiKeyModal: FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
           <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-100 rounded-xl">
             <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-blue-900 leading-relaxed">
-              You need an OpenAI API Key to use Europe's Gate AI features. Your API Key is stored locally on your browser and never sent anywhere else.
+              You need an OpenAI API Key to use Europe&apos;s Gate AI features. Your API Key is stored locally on your browser and never sent anywhere else.
             </p>
           </div>
 
@@ -240,7 +240,7 @@ export const ApiKeyModal: FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                       >
                         OpenAI account
                       </a>{" "}
-                      and a valid API key to use ChatGPT. We don't sell API keys.
+                      and a valid API key to use ChatGPT. We don&apos;t sell API keys.
                     </p>
                   </li>
                   <li className="flex items-start gap-3">

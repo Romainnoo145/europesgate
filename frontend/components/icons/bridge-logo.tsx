@@ -32,7 +32,7 @@ export const BridgeLogo: FC<BridgeLogoProps> = ({
       role="img"
       aria-labelledby="bridge-logo-title"
     >
-      <title id="bridge-logo-title">Europe's Gate Bridge Logo</title>
+      <title id="bridge-logo-title">Europe&apos;s Gate Bridge Logo</title>
 
       {/* Tile with rounded top-left corner */}
       <defs>

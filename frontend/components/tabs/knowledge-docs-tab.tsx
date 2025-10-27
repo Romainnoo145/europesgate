@@ -266,7 +266,7 @@ export const KnowledgeDocsTab: FC = () => {
   };
 
   // Filter documents based on search query and category
-  let filteredDocuments = documents.filter((doc) => {
+  const filteredDocuments = documents.filter((doc) => {
     const matchesSearch = doc.filename.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || (doc.category || "general") === selectedCategory;
     return matchesSearch && matchesCategory;

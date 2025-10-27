@@ -271,7 +271,7 @@ export const TopNavbar: FC<TopNavbarProps> = ({
                 <div className="absolute top-full right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-20">
                   <div className="p-4">
                     <h6 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
-                      Europe's Gate Modules
+                      Europe&apos;s Gate Modules
                     </h6>
                     <div className="grid grid-cols-3 gap-3">
                       <a

@@ -17,6 +17,7 @@ import {
   CopyIcon,
   RefreshCwIcon,
   BookmarkPlus,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
