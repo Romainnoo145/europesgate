@@ -13,6 +13,12 @@ from docx import Document
 
 from .config import settings
 
+# Import token tracker
+try:
+    from utils.token_tracker import token_tracker
+except ImportError:
+    token_tracker = None  # Fallback if not available
+
 logger = logging.getLogger(__name__)
 
 
@@ -539,16 +545,28 @@ class QueenRAGEngine:
                 messages=messages,  # type: ignore
                 stream=stream,
                 temperature=0.7,
-                max_tokens=2000
+                max_tokens=2000,
+                stream_options={"include_usage": True} if stream else None
             )
 
             if stream:
-                # Stream response chunks
+                # Stream response chunks and track usage
                 async for chunk in response:  # type: ignore
                     if chunk.choices[0].delta.content:
                         yield chunk.choices[0].delta.content
+                    # Check for usage in final chunk
+                    if hasattr(chunk, 'usage') and chunk.usage:
+                        prompt_tokens = chunk.usage.prompt_tokens
+                        completion_tokens = chunk.usage.completion_tokens
+                        if token_tracker and prompt_tokens and completion_tokens:
+                            token_tracker.add_usage(prompt_tokens, completion_tokens, settings.openai_model)
             else:
-                # Return complete response
+                # Return complete response and track usage
+                if hasattr(response, 'usage') and response.usage:
+                    prompt_tokens = response.usage.prompt_tokens
+                    completion_tokens = response.usage.completion_tokens
+                    if token_tracker and prompt_tokens and completion_tokens:
+                        token_tracker.add_usage(prompt_tokens, completion_tokens, settings.openai_model)
                 yield response.choices[0].message.content  # type: ignore
 
         except Exception as e:

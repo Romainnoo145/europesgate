@@ -1,9 +1,11 @@
 "use client";
 
 import { FC, useState } from "react";
-import { User } from "lucide-react";
+import { User, Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
 
 export const SettingsTab: FC = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [formData, setFormData] = useState({
     username: "@matt.hendrikx",
     email: "matt@europesgate.com",
@@ -35,7 +37,7 @@ export const SettingsTab: FC = () => {
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+    if (confirm(t("settings.deleteConfirm"))) {
       console.log("Deleting account");
       // Add delete logic here
     }
@@ -58,7 +60,7 @@ export const SettingsTab: FC = () => {
 
             {/* Account Type Dropdown */}
             <div className="flex items-center gap-2">
-              <p className="text-sm text-gray-600">Account type:</p>
+              <p className="text-sm text-gray-600">{t("settings.accountType")}</p>
               <div className="relative">
                 <select
                   name="accountType"
@@ -66,8 +68,8 @@ export const SettingsTab: FC = () => {
                   onChange={handleChange}
                   className="appearance-none pl-3 pr-8 py-1.5 border border-gray-200 rounded-lg bg-white text-sm text-gray-700 focus:outline-none focus:border-[#4318FF] transition-all cursor-pointer"
                 >
-                  <option value="Administrator">Administrator</option>
-                  <option value="Member">Member</option>
+                  <option value="Administrator">{t("settings.administrator")}</option>
+                  <option value="Member">{t("settings.member")}</option>
                 </select>
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                   <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
@@ -85,8 +87,8 @@ export const SettingsTab: FC = () => {
             {/* Account Settings */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">Account Settings</h3>
-                <p className="text-sm text-gray-500">Here you can change user account information</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">{t("settings.accountSettings")}</h3>
+                <p className="text-sm text-gray-500">{t("settings.accountSettingsDesc")}</p>
               </div>
 
               <div className="space-y-4">
@@ -94,7 +96,7 @@ export const SettingsTab: FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                      Username
+                      {t("settings.username")}
                     </label>
                     <input
                       type="text"
@@ -108,7 +110,7 @@ export const SettingsTab: FC = () => {
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address
+                      {t("settings.emailAddress")}
                     </label>
                     <input
                       type="email"
@@ -126,7 +128,7 @@ export const SettingsTab: FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name
+                      {t("settings.firstName")}
                     </label>
                     <input
                       type="text"
@@ -140,7 +142,7 @@ export const SettingsTab: FC = () => {
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name
+                      {t("settings.lastName")}
                     </label>
                     <input
                       type="text"
@@ -157,7 +159,7 @@ export const SettingsTab: FC = () => {
                 {/* Job */}
                 <div>
                   <label htmlFor="job" className="block text-sm font-medium text-gray-700 mb-2">
-                    Job
+                    {t("settings.job")}
                   </label>
                   <input
                     type="text"
@@ -173,14 +175,14 @@ export const SettingsTab: FC = () => {
                 {/* About Me */}
                 <div>
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700 mb-2">
-                    About Me
+                    {t("settings.aboutMe")}
                   </label>
                   <textarea
                     id="about"
                     name="about"
                     value={formData.about}
                     onChange={handleChange}
-                    placeholder="Tell something about yourself in 150 characters!"
+                    placeholder={t("settings.aboutMePlaceholder")}
                     rows={4}
                     maxLength={150}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all resize-none"
@@ -192,17 +194,50 @@ export const SettingsTab: FC = () => {
 
           {/* Right Column */}
           <div className="space-y-6">
+            {/* Language Preference */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Globe size={18} className="text-[#4318FF]" />
+                  <h3 className="text-lg font-bold text-gray-900">{t("settings.language")}</h3>
+                </div>
+                <p className="text-sm text-gray-500">{t("settings.languageDesc")}</p>
+              </div>
+
+              <div>
+                <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t("settings.languageLabel")}
+                </label>
+                <div className="relative">
+                  <select
+                    id="language"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as "en" | "nl")}
+                    className="w-full appearance-none px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 focus:outline-none focus:border-[#4318FF] transition-all cursor-pointer"
+                  >
+                    <option value="en">{t("settings.english")}</option>
+                    <option value="nl">{t("settings.dutch")}</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
+                      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Social Profiles */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">Social Profiles</h3>
-                <p className="text-sm text-gray-500">Here you can set user social profiles</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">{t("settings.socialProfiles")}</h3>
+                <p className="text-sm text-gray-500">{t("settings.socialProfilesDesc")}</p>
               </div>
 
               <div className="space-y-4">
                 <div>
                   <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 mb-2">
-                    Twitter Username
+                    {t("settings.twitterUsername")}
                   </label>
                   <input
                     type="text"
@@ -210,13 +245,13 @@ export const SettingsTab: FC = () => {
                     name="twitter"
                     value={formData.twitter}
                     onChange={handleChange}
-                    placeholder="Twitter Username"
+                    placeholder={t("settings.twitterUsername")}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
                   />
                 </div>
                 <div>
                   <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-2">
-                    Facebook Username
+                    {t("settings.facebookUsername")}
                   </label>
                   <input
                     type="text"
@@ -224,13 +259,13 @@ export const SettingsTab: FC = () => {
                     name="facebook"
                     value={formData.facebook}
                     onChange={handleChange}
-                    placeholder="Facebook Username"
+                    placeholder={t("settings.facebookUsername")}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
                   />
                 </div>
                 <div>
                   <label htmlFor="github" className="block text-sm font-medium text-gray-700 mb-2">
-                    Github Username
+                    {t("settings.githubUsername")}
                   </label>
                   <input
                     type="text"
@@ -238,7 +273,7 @@ export const SettingsTab: FC = () => {
                     name="github"
                     value={formData.github}
                     onChange={handleChange}
-                    placeholder="Github Username"
+                    placeholder={t("settings.githubUsername")}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
                   />
                 </div>
@@ -248,14 +283,14 @@ export const SettingsTab: FC = () => {
             {/* Change Password */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">Change Password</h3>
-                <p className="text-sm text-gray-500">Here you can set your new password</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">{t("settings.changePassword")}</h3>
+                <p className="text-sm text-gray-500">{t("settings.changePasswordDesc")}</p>
               </div>
 
               <div className="space-y-4">
                 <div>
                   <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                    Old Password
+                    {t("settings.oldPassword")}
                   </label>
                   <input
                     type="password"
@@ -263,13 +298,13 @@ export const SettingsTab: FC = () => {
                     name="oldPassword"
                     value={formData.oldPassword}
                     onChange={handleChange}
-                    placeholder="Old Password"
+                    placeholder={t("settings.oldPassword")}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
                   />
                 </div>
                 <div>
                   <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                    New Password
+                    {t("settings.newPassword")}
                   </label>
                   <input
                     type="password"
@@ -277,13 +312,13 @@ export const SettingsTab: FC = () => {
                     name="newPassword"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    placeholder="New Password"
+                    placeholder={t("settings.newPassword")}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
                   />
                 </div>
                 <div>
                   <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                    New Password Confirmation
+                    {t("settings.newPasswordConfirmation")}
                   </label>
                   <input
                     type="password"
@@ -291,7 +326,7 @@ export const SettingsTab: FC = () => {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    placeholder="Confirm New Password"
+                    placeholder={t("settings.confirmNewPassword")}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#4318FF] transition-all"
                   />
                 </div>
@@ -306,7 +341,7 @@ export const SettingsTab: FC = () => {
             onClick={handleDelete}
             className="px-6 py-2.5 rounded-xl text-red-600 text-sm font-semibold border border-red-200 hover:bg-red-50 transition-all"
           >
-            Delete Account
+            {t("settings.deleteAccount")}
           </button>
           <button
             onClick={handleSave}
@@ -315,7 +350,7 @@ export const SettingsTab: FC = () => {
               background: "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)",
             }}
           >
-            Save Changes
+            {t("settings.saveChanges")}
           </button>
         </div>
       </div>

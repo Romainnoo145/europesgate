@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { LanguageProvider } from "@/contexts/language-context";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -25,10 +26,12 @@ export default function RootLayout({
         className={`${dmSans.variable} antialiased h-full bg-white font-sans`}
         style={{ fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
       >
-        <div id="__next" className="h-full">
-          {children}
-        </div>
-        <Toaster richColors position="bottom-right" />
+        <LanguageProvider>
+          <div id="__next" className="h-full">
+            {children}
+          </div>
+          <Toaster richColors position="bottom-right" />
+        </LanguageProvider>
       </body>
     </html>
   );

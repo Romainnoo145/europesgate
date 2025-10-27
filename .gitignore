@@ -17,6 +17,7 @@ ENV/
 backend/storage/chroma_db/
 backend/storage/logs/
 backend/storage/*.log
+backend/storage/token_usage.json
 
 # Frontend
 node_modules/

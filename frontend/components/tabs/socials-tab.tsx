@@ -2,6 +2,7 @@
 
 import { FC, useState } from "react";
 import { FileText, Linkedin, Mail, ArrowRight, Clock, ArrowLeft, Copy, Check, MessageSquare, Edit3 } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
 
 const socialChannels = [
   {
@@ -37,6 +38,7 @@ type PostType = "blog" | "linkedin" | "newsletter";
 type InputMode = "prompt" | "chat";
 
 export const SocialsTab: FC = () => {
+  const { t } = useLanguage();
   const [selectedChannel, setSelectedChannel] = useState<PostType | null>(null);
   const [inputMode, setInputMode] = useState<InputMode>("prompt");
   const [customPrompt, setCustomPrompt] = useState("");
@@ -64,9 +66,9 @@ export const SocialsTab: FC = () => {
       <div className="h-full flex flex-col bg-white">
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Social Media Posts</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("social.title")}</h2>
           <p className="text-sm text-gray-600">
-            Generate professional content for your social channels
+            {t("social.desc")}
           </p>
         </div>
 
@@ -104,7 +106,7 @@ export const SocialsTab: FC = () => {
                       <div className="flex items-center gap-2">
                         <Clock size={14} className="text-amber-500" />
                         <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
-                          Coming Soon
+                          {t("social.comingSoon")}
                         </span>
                       </div>
                       <ArrowRight size={18} className="text-gray-400 group-hover:text-[#4318FF] group-hover:translate-x-1 transition-all" />
@@ -173,7 +175,7 @@ export const SocialsTab: FC = () => {
                   }`}
                 >
                   <Edit3 size={16} />
-                  Custom Prompt
+                  {t("social.customPrompt")}
                 </button>
                 <button
                   onClick={() => setInputMode("chat")}
@@ -184,7 +186,7 @@ export const SocialsTab: FC = () => {
                   }`}
                 >
                   <MessageSquare size={16} />
-                  From Chat History
+                  {t("social.fromChat")}
                 </button>
               </div>
 
@@ -261,7 +263,7 @@ export const SocialsTab: FC = () => {
                       background: "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)",
                     }}
                   >
-                    Generate (Coming Soon)
+                    {t("social.generate")}
                   </button>
                 </div>
               ) : (
@@ -306,12 +308,12 @@ export const SocialsTab: FC = () => {
                 {copied ? (
                   <>
                     <Check size={18} />
-                    Copied!
+                    {t("social.copied")}
                   </>
                 ) : (
                   <>
                     <Copy size={18} />
-                    Copy Text
+                    {t("social.copyText")}
                   </>
                 )}
               </button>

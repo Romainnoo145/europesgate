@@ -28,6 +28,7 @@ import {
   ComposerAttachments,
   UserMessageAttachments,
 } from "@/components/assistant-ui/attachment";
+import { useLanguage } from "@/contexts/language-context";
 
 interface ThreadProps {
   chatId?: string;
@@ -83,6 +84,7 @@ const ThreadScrollToBottom: FC = () => {
 };
 
 const ThreadWelcome: FC = () => {
+  const { t } = useLanguage();
   const [promptValue, setPromptValue] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -110,7 +112,7 @@ const ThreadWelcome: FC = () => {
     }
   };
 
-  const greeting = "Hé Romano";
+  const greeting = t("thread.greeting");
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-b from-white to-gray-50 px-4">
@@ -134,24 +136,18 @@ const ThreadWelcome: FC = () => {
                 </span>
               ))}
             </h1>
-            <span
-              className="text-6xl animate-fade-in-up inline-block"
-              style={{ animationDelay: '0.4s' }}
-            >
-              👋
-            </span>
           </div>
           <p className="text-lg text-gray-600 text-center font-medium opacity-0 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            Laten we verder itereren op Europe&apos;s Gate
+            {t("thread.subtitle")}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            "Wat is de multi-SPV governance structuur en waarom is het belangrijk?",
-            "Hoe zorgt CSRD compliance voor competitief voordeel bij EU funding?",
-            "Wat zijn de kritieke risk mitigation strategieën voor het £12-15B budget?",
-            "Leg het partnership ecosystem uit tussen UK, Nederland en EU instituties",
+            t("thread.quickPrompt1"),
+            t("thread.quickPrompt2"),
+            t("thread.quickPrompt3"),
+            t("thread.quickPrompt4"),
           ].map((prompt) => (
             <button
               key={prompt}
@@ -181,7 +177,7 @@ const ThreadWelcome: FC = () => {
               }}
               rows={1}
               autoFocus
-              placeholder="Typ je bericht hier..."
+              placeholder={t("thread.inputPlaceholder")}
               className="flex-grow resize-none border-none bg-transparent text-base outline-none placeholder:text-gray-400 focus:ring-0 disabled:cursor-not-allowed text-gray-900"
             />
             <ComposerPrimitive.Send asChild>
@@ -191,7 +187,7 @@ const ThreadWelcome: FC = () => {
                   background: "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)",
                 }}
               >
-                Verstuur
+                Send
               </button>
             </ComposerPrimitive.Send>
           </div>

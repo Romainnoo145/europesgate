@@ -3,6 +3,7 @@
 import { FC, useState } from "react";
 import { X, ExternalLink, ChevronDown, ChevronUp, Key, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/language-context";
 
 interface ApiKeyModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface ApiKeyModalProps {
 }
 
 export const ApiKeyModal: FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
+  const { t } = useLanguage();
   const [apiKey, setApiKey] = useState("");
   const [asstKey, setAsstKey] = useState("");
   const [isTroubleshootOpen, setIsTroubleshootOpen] = useState(false);
@@ -104,7 +106,7 @@ export const ApiKeyModal: FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
               <Key className="w-5 h-5 text-white" />
             </div>
             <h2 className="text-xl font-bold text-gray-900">
-              Enter your OpenAI API Key
+              {t("apiKey.title")}
             </h2>
           </div>
           <button
@@ -153,10 +155,10 @@ export const ApiKeyModal: FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                 {savingApiKey ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Saving...
+                    {t("apiKey.saving")}
                   </div>
                 ) : (
-                  "Save"
+                  t("apiKey.save")
                 )}
               </button>
             </div>
@@ -189,10 +191,10 @@ export const ApiKeyModal: FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                 {savingAsstKey ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Saving...
+                    {t("apiKey.saving")}
                   </div>
                 ) : (
-                  "Save"
+                  t("apiKey.save")
                 )}
               </button>
             </div>

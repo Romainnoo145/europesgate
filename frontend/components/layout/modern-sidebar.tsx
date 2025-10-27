@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import {
   MessageSquare,
   BookOpen,
@@ -16,6 +16,7 @@ import { BridgeLogo } from "@/components/icons/bridge-logo";
 import { ChatSession } from "./main-layout";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ApiKeyModal } from "@/components/modals/api-key-modal";
+import { useLanguage } from "@/contexts/language-context";
 
 interface ModernSidebarProps {
   activeTab: "home" | "knowledge" | "socials" | "settings";
@@ -36,8 +37,51 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
   onLoadChat,
   onDeleteChat,
 }) => {
+  const { t } = useLanguage();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
+  const [usageData, setUsageData] = useState({
+    total_credits: 1000000,
+    used_credits: 214316,
+    usage_percentage: 21.43,
+    total_cost_eur: 1.52,
+    daily_usage: [
+      { tokens: 214316, cost_eur: 1.52 },
+      { tokens: 0, cost_eur: 0 },
+      { tokens: 0, cost_eur: 0 },
+      { tokens: 0, cost_eur: 0 },
+      { tokens: 0, cost_eur: 0 },
+      { tokens: 0, cost_eur: 0 },
+      { tokens: 0, cost_eur: 0 }
+    ]
+  });
+
+  // Fetch usage data on mount and every 30 seconds
+  useEffect(() => {
+    const fetchUsage = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+        const response = await fetch(`${apiUrl}/api/usage/credits`);
+        if (response.ok) {
+          const data = await response.json();
+          setUsageData({
+            total_credits: data.total_credits,
+            used_credits: data.used_credits,
+            usage_percentage: data.usage_percentage,
+            total_cost_eur: data.total_cost_eur || 0,
+            daily_usage: data.daily_usage || []
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch usage data:", error);
+      }
+    };
+
+    fetchUsage();
+    const interval = setInterval(fetchUsage, 30000); // Refresh every 30 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div
@@ -72,7 +116,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
             >
               <MessageSquare size={18} />
             </div>
-            <span>AI Chat</span>
+            <span>{t("sidebar.aiChat")}</span>
           </div>
           {onNewChat && activeTab === "home" && (
             <div
@@ -113,7 +157,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
           >
             <BookOpen size={18} />
           </div>
-          <span>Knowledge Base</span>
+          <span>{t("sidebar.knowledgeBase")}</span>
         </button>
 
         {/* Social Media */}
@@ -134,7 +178,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
           >
             <Users size={18} />
           </div>
-          <span>Social Media</span>
+          <span>{t("sidebar.socialMedia")}</span>
         </button>
 
         {/* Divider */}
@@ -143,7 +187,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
         {/* Recent Chats */}
         <div>
           <h3 className="px-4 text-xs font-semibold text-white/60 uppercase tracking-wider mb-3">
-            Recent Chats
+            {t("sidebar.recentChats")}
           </h3>
           {chatSessions.length > 0 ? (
             <div className="space-y-1">
@@ -185,10 +229,10 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
                 </div>
               </div>
               <p className="text-xs text-white/60 font-medium mb-1">
-                Coming Soon
+                {t("sidebar.comingSoon")}
               </p>
               <p className="text-xs text-white/40 leading-relaxed">
-                Chat history will be available in a future update
+                {t("sidebar.chatHistoryDesc")}
               </p>
             </div>
           )}
@@ -199,32 +243,55 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
       <div className="p-4 space-y-4">
         {/* Credits Widget */}
         <div className="rounded-2xl bg-white/10 backdrop-blur-sm p-4">
-          <p className="text-xs font-semibold text-white mb-2">Credits</p>
+          <p className="text-xs font-semibold text-white mb-2">{t("sidebar.credits")}</p>
           <div
             className="h-1.5 w-full rounded-full mb-2 bg-white/20"
           >
             <div
-              className="h-full rounded-full"
+              className="h-full rounded-full transition-all duration-500"
               style={{
-                width: "10%",
+                width: `${usageData.usage_percentage}%`,
                 background: "linear-gradient(90deg, #60A5FA 0%, #A78BFA 100%)"
               }}
             />
           </div>
-          <p className="text-xs text-white/70">3,264/100,000 credits used</p>
+          <p className="text-xs text-white/70">
+            €{usageData.total_cost_eur.toFixed(2)} ({usageData.used_credits.toLocaleString()} tokens)
+          </p>
 
           {/* Mini Chart */}
-          <div className="flex items-end justify-between gap-1 h-16 mt-4">
-            {[40, 55, 70, 45, 85, 60, 50].map((height, i) => (
-              <div
-                key={i}
-                className="flex-1 rounded-t-lg transition-all hover:opacity-80"
-                style={{
-                  height: `${height}%`,
-                  background: `linear-gradient(180deg, rgba(96, 165, 250, ${0.4 + (i * 0.05)}) 0%, rgba(167, 139, 250, ${0.4 + (i * 0.05)}) 100%)`
-                }}
-              />
-            ))}
+          <div className="mt-4 space-y-1">
+            <div className="flex items-end justify-between gap-1 h-16">
+              {usageData.daily_usage.map((day, i) => {
+                const maxCost = Math.max(...usageData.daily_usage.map(d => d.cost_eur || 0));
+                const heightPx = maxCost > 0 && day.cost_eur > 0 ? (day.cost_eur / maxCost) * 64 : 2;
+                return (
+                  <div
+                    key={i}
+                    className="flex-1 relative group flex items-end"
+                  >
+                    <div
+                      className="w-full rounded-t-lg transition-all duration-500 group-hover:opacity-80"
+                      style={{
+                        height: `${heightPx}px`,
+                        background: day.cost_eur > 0
+                          ? `linear-gradient(180deg, rgba(96, 165, 250, ${0.4 + (i * 0.05)}) 0%, rgba(167, 139, 250, ${0.4 + (i * 0.05)}) 100%)`
+                          : 'rgba(255, 255, 255, 0.1)'
+                      }}
+                    />
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                      €{day.cost_eur.toFixed(2)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-between text-[10px] text-white/50 px-0.5">
+              {['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'].map((day, i) => (
+                <span key={i} className="flex-1 text-center">{day}</span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -233,7 +300,7 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
           onClick={() => setApiKeyModalOpen(true)}
           className="w-full px-4 py-2.5 rounded-xl bg-white text-[#4318FF] text-sm font-semibold hover:bg-white/90 transition-colors"
         >
-          Set API Key
+          {t("sidebar.setApiKey")}
         </button>
 
         {/* User Profile */}
@@ -266,12 +333,12 @@ export const ModernSidebar: FC<ModernSidebarProps> = ({
                   className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                 >
                   <Settings size={16} />
-                  <span>Profile Settings</span>
+                  <span>{t("sidebar.profileSettings")}</span>
                 </button>
                 <div className="border-t border-gray-200" />
                 <button className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-600 transition-colors hover:bg-red-50">
                   <LogOut size={16} />
-                  <span>Log out</span>
+                  <span>{t("sidebar.logout")}</span>
                 </button>
               </div>
             </>

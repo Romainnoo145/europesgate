@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse
 from api.chat import router as chat_router
 from api.documents import router as document_router
 from api.health import router as health_router
+from api.usage import router as usage_router
 from dependencies import rag_engine as global_rag_engine
 from dependencies import set_rag_engine
 
@@ -92,6 +93,7 @@ app.add_middleware(
 app.include_router(chat_router, prefix="/api/chat", tags=["chat"])
 app.include_router(document_router, prefix="/api/documents", tags=["documents"])
 app.include_router(health_router, prefix="/api/health", tags=["health"])
+app.include_router(usage_router)
 
 # Root endpoint
 @app.get("/")
