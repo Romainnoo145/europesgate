@@ -13,8 +13,10 @@ ENV/
 .env
 *.log
 
-# Storage
-backend/storage/
+# Storage - allow documents, ignore generated data
+backend/storage/chroma_db/
+backend/storage/logs/
+backend/storage/*.log
 
 # Frontend
 node_modules/
