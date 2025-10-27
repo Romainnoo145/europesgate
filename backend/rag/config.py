@@ -12,7 +12,7 @@ class RAGSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', extra='allow')
 
     # OpenAI Settings
-    openai_api_key: str = Field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
+    openai_api_key: str = Field(default="")
     openai_model: str = Field(default="gpt-4o", validation_alias="OPENAI_MODEL")
     openai_embedding_model: str = Field(default="text-embedding-3-small", validation_alias="OPENAI_EMBEDDING_MODEL")
 
