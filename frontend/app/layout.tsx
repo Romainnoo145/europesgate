@@ -11,48 +11,30 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://europes-gate.klarifai.nl'),
   title: "Europe's Gate - Intelligence Platform",
-  description: "Strategic AI advisor for the €50-100B Europe's Gate megaproject: 360km North Sea bridge connecting London to Amsterdam/Rotterdam, integrated with green steel production (100M tons/year), hydrogen infrastructure (5-10 GW), and circular urban nodes.",
-  keywords: [
-    "Europe's Gate",
-    "North Sea Bridge",
-    "Green Steel",
-    "Hydrogen Infrastructure",
-    "Circular Economy",
-    "Megaproject",
-    "Infrastructure",
-    "AI Advisor",
-    "Strategic Intelligence"
-  ],
+  description: "Strategic AI advisor for the €50-100B Europe's Gate megaproject: 360km North Sea bridge connecting London to Amsterdam/Rotterdam with green steel, hydrogen infrastructure, and circular urban innovation.",
+  keywords: "Europe's Gate, North Sea Bridge, Green Steel, Hydrogen Infrastructure, Circular Economy, Megaproject, Infrastructure, AI Advisor",
   authors: [{ name: "Europe's Gate Team" }],
   creator: "Europe's Gate",
   publisher: "Europe's Gate",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     type: "website",
     locale: "en_GB",
-    alternateLocale: ["nl_NL"],
     url: "https://europes-gate.klarifai.nl",
     siteName: "Europe's Gate",
     title: "Europe's Gate - Intelligence Platform",
     description: "Strategic AI advisor for the €50-100B Europe's Gate megaproject: 360km North Sea bridge connecting London to Amsterdam/Rotterdam with green steel, hydrogen infrastructure, and circular urban innovation.",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://europes-gate.klarifai.nl/og-image.png",
         width: 1200,
         height: 630,
         alt: "Europe's Gate - North Sea Bridge Megaproject",
-        type: "image/png",
       },
     ],
   },
@@ -60,19 +42,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Europe's Gate - Intelligence Platform",
     description: "Strategic AI advisor for the €50-100B megaproject: 360km North Sea bridge with green steel, hydrogen infrastructure, and circular economy innovation.",
-    images: ["/og-image.png"],
-    creator: "@EuropesGate",
-    site: "@EuropesGate",
+    images: ["https://europes-gate.klarifai.nl/og-image.png"],
   },
-  alternates: {
-    canonical: "https://europes-gate.klarifai.nl",
-    languages: {
-      'en-GB': 'https://europes-gate.klarifai.nl/en',
-      'nl-NL': 'https://europes-gate.klarifai.nl/nl',
-    },
-  },
-  metadataBase: new URL('https://europes-gate.klarifai.nl'),
-  category: "Infrastructure",
 };
 
 export const viewport: Viewport = {
