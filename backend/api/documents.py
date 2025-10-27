@@ -22,6 +22,7 @@ class DocumentInfo(BaseModel):
     size: int
     type: str
     modified: float
+    category: str | None = None
     metadata: dict[str, Any] = {}
 
 
@@ -42,6 +43,12 @@ class DocumentUploadResponse(BaseModel):
 class DocumentDeleteRequest(BaseModel):
     """Document deletion request model."""
     filename: str = Field(..., description="Name of the file to delete")
+
+
+class DocumentUpdateCategoryRequest(BaseModel):
+    """Document category update request model."""
+    filename: str = Field(..., description="Name of the file to update")
+    category: str = Field(..., description="New category for the document")
 
 
 @router.post("/upload", response_model=DocumentUploadResponse)
@@ -153,6 +160,7 @@ async def list_documents(
                 size=doc["size"],
                 type=doc["type"],
                 modified=doc["modified"],
+                category=doc.get("metadata", {}).get("category"),
                 metadata=doc.get("metadata", {})
             )
             for doc in documents
@@ -337,6 +345,53 @@ async def document_stats(
     except Exception as e:
         logger.error(f"Stats error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to get stats: {str(e)}") from e
+
+
+@router.patch("/update-category")
+async def update_document_category(
+    request: DocumentUpdateCategoryRequest,
+    rag_engine: QueenRAGEngine = Depends(get_rag_engine)
+) -> dict[str, Any]:
+    """
+    Update the category of a document.
+    """
+    try:
+        file_path = Path(settings.upload_directory) / request.filename
+
+        if not file_path.exists():
+            raise HTTPException(status_code=404, detail=f"Document {request.filename} not found")
+
+        # Update metadata file
+        metadata_path = file_path.with_suffix('.meta.json')
+        metadata = {}
+
+        if metadata_path.exists():
+            import json
+            with open(metadata_path, 'r') as f:
+                metadata = json.load(f)
+
+        # Update category
+        metadata['category'] = request.category
+
+        # Write back metadata
+        import json
+        with open(metadata_path, 'w') as f:
+            json.dump(metadata, f, indent=2)
+
+        logger.info(f"Updated category for {request.filename} to {request.category}")
+
+        return {
+            "status": "success",
+            "filename": request.filename,
+            "category": request.category,
+            "message": f"Category updated to {request.category}"
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Category update error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update category: {str(e)}") from e
 
 
 @router.get("/health")

@@ -13,6 +13,8 @@ interface SidebarProps {
   currentChatId: string;
   onLoadChat: (chatId: string) => void;
   onDeleteChat: (chatId: string) => void;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 export const Sidebar: FC<SidebarProps> = ({
@@ -23,8 +25,19 @@ export const Sidebar: FC<SidebarProps> = ({
   currentChatId,
   onLoadChat,
   onDeleteChat,
+  isOpen: controlledIsOpen,
+  onToggle,
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [internalIsOpen, setInternalIsOpen] = useState(true);
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+
+  const handleToggle = () => {
+    if (onToggle) {
+      onToggle();
+    } else {
+      setInternalIsOpen(!internalIsOpen);
+    }
+  };
 
   const navItems = [
     {
@@ -55,17 +68,19 @@ export const Sidebar: FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Mobile menu button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-lg hover:bg-gray-100 md:hidden"
-      >
-        {isOpen ? (
-          <X size={24} className="text-gray-700" />
-        ) : (
-          <Menu size={24} className="text-gray-700" />
-        )}
-      </button>
+      {/* Mobile menu button - only show if not controlled by parent */}
+      {!onToggle && (
+        <button
+          onClick={handleToggle}
+          className="fixed top-4 left-4 z-50 p-2 rounded-lg hover:bg-gray-100 md:hidden"
+        >
+          {isOpen ? (
+            <X size={24} className="text-gray-700" />
+          ) : (
+            <Menu size={24} className="text-gray-700" />
+          )}
+        </button>
+      )}
 
       {/* Sidebar */}
       <div
@@ -100,7 +115,10 @@ export const Sidebar: FC<SidebarProps> = ({
                 key={item.id}
                 onClick={() => {
                   onTabChange(item.id);
-                  setIsOpen(false);
+                  // Close sidebar on mobile
+                  if (window.innerWidth < 768) {
+                    handleToggle();
+                  }
                 }}
                 className={cn(
                   "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 active:scale-95",
@@ -170,7 +188,7 @@ export const Sidebar: FC<SidebarProps> = ({
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={handleToggle}
         />
       )}
     </>

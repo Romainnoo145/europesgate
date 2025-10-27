@@ -8,6 +8,8 @@ from typing import Any
 import chromadb
 from chromadb.utils import embedding_functions
 from openai import AsyncOpenAI
+from pypdf import PdfReader
+from docx import Document
 
 from .config import settings
 
@@ -80,6 +82,42 @@ class QueenRAGEngine:
                 if file_path.is_file() and not file_path.name.endswith('.meta.json'):
                     self.loaded_documents.add(file_path.name)
 
+    def _extract_content(self, file_path: str) -> str:
+        """
+        Extract content from various file formats.
+        Supports: PDF, DOCX, TXT, MD, and other text files.
+        """
+        file_path_obj = Path(file_path)
+        suffix = file_path_obj.suffix.lower()
+
+        try:
+            if suffix == '.pdf':
+                # Extract text from PDF
+                content = []
+                reader = PdfReader(file_path)
+                for page in reader.pages:
+                    content.append(page.extract_text())
+                return '\n'.join(content)
+
+            elif suffix == '.docx':
+                # Extract text from DOCX
+                doc = Document(file_path)
+                content = []
+                for para in doc.paragraphs:
+                    content.append(para.text)
+                return '\n'.join(content)
+
+            else:
+                # Treat as text file (MD, TXT, etc.)
+                with open(file_path, encoding='utf-8') as f:
+                    return f.read()
+
+        except UnicodeDecodeError:
+            # If UTF-8 fails, try with latin-1 encoding
+            logger.warning(f"UTF-8 decode failed for {file_path_obj.name}, trying latin-1")
+            with open(file_path, encoding='latin-1') as f:
+                return f.read()
+
     async def add_document(self, file_path: str, metadata: dict[str, Any] | None = None) -> dict[str, Any]:
         """
         Add a new document to the RAG knowledge base.
@@ -97,9 +135,8 @@ class QueenRAGEngine:
                     "message": "Document already in knowledge base"
                 }
 
-            # Read document content
-            with open(file_path, encoding='utf-8') as f:
-                content = f.read()
+            # Read document content with proper file type handling
+            content = self._extract_content(file_path)
 
             # Split content into chunks
             chunks = self._split_text(content)
